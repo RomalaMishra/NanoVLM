@@ -16,7 +16,7 @@
 
 ## What is this?
 
-**nanoVLM** is a from-scratch, pedagogical implementation of [CLIP](https://arxiv.org/abs/2103.00020) (Contrastive Language–Image Pretraining) that trains on a **procedurally generated shapes dataset** — no downloads, no GPUs, no pretrained weights. The entire model trains in **under 2 minutes on CPU**.
+**nanoVLM** is a from-scratch implementation of [CLIP](https://arxiv.org/abs/2103.00020) (Contrastive Language–Image Pretraining) that trains on a **procedurally generated shapes dataset** — no downloads, no GPUs, no pretrained weights. The entire model trains in **under 2 minutes on CPU**.
 
 It's designed to make the core ideas of vision-language contrastive learning **tangible and hackable**:
 
