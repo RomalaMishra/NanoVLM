@@ -10,7 +10,6 @@
   <img src="https://img.shields.io/badge/PyTorch-2.0+-ee4c2c?logo=pytorch&logoColor=white" />
   <img src="https://img.shields.io/badge/params-427K-7209b7" />
   <img src="https://img.shields.io/badge/dataset-synthetic_shapes-f72585" />
-  <img src="https://img.shields.io/badge/license-MIT-green" />
 </p>
 
 ---
@@ -185,6 +184,3 @@ Some ideas if you want to take nanoVLM further:
 
 - Radford, A. et al. (2021). [*Learning Transferable Visual Models From Natural Language Supervision*](https://arxiv.org/abs/2103.00020). ICML.
 
-## License
-
-MIT
