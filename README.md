@@ -16,9 +16,9 @@
 
 ## What is this?
 
-**nanoVLM** is a from-scratch implementation of [CLIP](https://arxiv.org/abs/2103.00020) (Contrastive Language–Image Pretraining) that trains on a **procedurally generated shapes dataset** — no downloads, no GPUs, no pretrained weights. The entire model trains in **under 2 minutes on CPU**.
+**nanoVLM** is a from-scratch implementation of [CLIP](https://arxiv.org/abs/2103.00020) (Contrastive Language–Image Pretraining) that trains on a **procedurally generated shapes dataset**.
 
-It's designed to make the core ideas of vision-language contrastive learning **tangible and hackable**:
+It's design:
 
 - **Image Encoder** — a tiny 4-layer CNN that maps 32×32 RGB images to 64-d vectors
 - **Text Encoder** — token + positional embeddings → multi-head self-attention → [CLS] pooling
@@ -75,27 +75,6 @@ The cosine-similarity heatmap shows the model has learned to align matching imag
   <img src="assets/retrieval_t2i.png" width="600" />
 </p>
 
-## Project Structure
-
-```
-nanoVLM/
-├── train.py                 # One-command training script
-├── demo.py                  # Interactive retrieval demo
-├── requirements.txt
-│
-├── nanovlm/                 # Core library
-│   ├── __init__.py          # Public API
-│   ├── config.py            # All hyperparameters (dataclasses)
-│   ├── dataset.py           # Synthetic shapes dataset + loaders
-│   ├── models.py            # ImageEncoder (CNN) + TextEncoder (attention)
-│   ├── loss.py              # Symmetric CLIP contrastive loss
-│   ├── trainer.py           # Training loop with checkpointing
-│   ├── evaluate.py          # Recall@K metrics + retrieval helpers
-│   └── visualize.py         # Loss curves, heatmaps, retrieval galleries
-│
-├── assets/                  # Generated plots for README
-└── checkpoints/             # Saved model weights (git-ignored)
-```
 
 ## Quick Start
 
@@ -127,30 +106,6 @@ python train.py --epochs 100 --lr 1e-3 --batch_size 24 --embed_dim 128
 python demo.py
 ```
 
-Loads the trained checkpoint and runs image↔text retrieval with visualisations.
-
-### Use as a Library
-
-```python
-from nanovlm import (
-    ShapesDataset, build_loaders,
-    ImageEncoder, TextEncoder,
-    train, TrainConfig,
-    embed_loader, recall_at_k,
-)
-
-dataset = ShapesDataset()
-train_loader, val_loader = build_loaders(dataset)
-
-img_enc = ImageEncoder()
-txt_enc = TextEncoder(vocab_size=dataset.vocab_size)
-
-history = train(img_enc, txt_enc, train_loader, val_loader)
-
-bank = embed_loader(img_enc, txt_enc, val_loader, dataset)
-print(recall_at_k(bank["img_emb"], bank["txt_emb"]))
-```
-
 ## How It Works
 
 ### 1. Contrastive Objective
@@ -169,18 +124,4 @@ Captions are tokenised into `[CLS] color shape position` (4 tokens). Token and p
 
 A temperature parameter (τ = 0.07) sharpens the softmax distribution over the similarity matrix, making the contrastive signal stronger.
 
-## Extending This Project
-
-Some ideas if you want to take nanoVLM further:
-
-- **Richer dataset** — add more shapes (star, pentagon), sizes (small/large), or multi-object scenes
-- **Learnable temperature** — make τ a trainable `nn.Parameter` as in the original CLIP
-- **Vision Transformer** — swap the CNN for a patch-based ViT encoder
-- **Real images** — port the architecture to CIFAR-10 or a small subset of Flickr30k
-- **Zero-shot classification** — encode class labels as text and classify images by similarity
-- **Deeper text encoder** — stack multiple transformer layers
-
-## References
-
-- Radford, A. et al. (2021). [*Learning Transferable Visual Models From Natural Language Supervision*](https://arxiv.org/abs/2103.00020). ICML.
 
